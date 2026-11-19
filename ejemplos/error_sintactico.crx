@@ -1,0 +1,8 @@
+solicitud SOL-0400 {
+    cliente "Servicios Pacífico SAC";
+    monto 15000
+    plazo 12;
+}
+politica BASICA {
+    regla score >= sino "falta el lado derecho";
+}

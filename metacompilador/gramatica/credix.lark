@@ -1,0 +1,64 @@
+// ------------------------------------------------------------------
+//  CrediX - Gramática libre de contexto (GLC)
+//  TechSolutions SAC - Proceso: Préstamos y créditos
+//
+//  Este archivo es la ENTRADA del metacompilador (Lark). A partir de
+//  él se generan automáticamente el analizador léxico y el analizador
+//  sintáctico LALR(1). Si cambia el lenguaje, solo se edita aquí.
+// ------------------------------------------------------------------
+
+start: sentencia+
+
+?sentencia: solicitud
+          | politica
+          | evaluacion
+
+// solicitud SOL-0147 { cliente "Inversiones Rímac SAC"; monto 18500; ... }
+solicitud: _SOLICITUD CODIGO _LLAVE_A campo+ _LLAVE_C
+campo: ID valor _PUNTO_COMA
+?valor: NUMERO   -> numero
+      | CADENA   -> cadena
+
+// politica ESTANDAR { regla score >= 600 sino "mensaje"; ... }
+politica: _POLITICA ID _LLAVE_A regla+ _LLAVE_C
+regla: _REGLA condicion _SINO CADENA _PUNTO_COMA
+condicion: expr OPREL expr
+
+?expr: expr OPSUM termino      -> binaria
+     | termino
+?termino: termino OPMUL factor -> binaria
+        | factor
+?factor: NUMERO                -> numero
+       | ID                    -> variable
+       | _PAR_A expr _PAR_C
+
+// evaluar SOL-0147 con ESTANDAR;
+evaluacion: _EVALUAR CODIGO _CON ID _PUNTO_COMA
+
+// ----------------------------- TOKENS -----------------------------
+_SOLICITUD: "solicitud"
+_POLITICA: "politica"
+_REGLA: "regla"
+_SINO: "sino"
+_EVALUAR: "evaluar"
+_CON: "con"
+
+CODIGO.2: /[A-Z]{3}-[0-9]{4}/
+ID: /[a-zA-Z_][a-zA-Z0-9_]*/
+NUMERO: /[0-9]+(\.[0-9]+)?/
+CADENA: /"[^"\n]*"/
+
+OPREL: ">=" | "<=" | "==" | "!=" | ">" | "<"
+OPSUM: "+" | "-"
+OPMUL: "*" | "/"
+
+_LLAVE_A: "{"
+_LLAVE_C: "}"
+_PAR_A: "("
+_PAR_C: ")"
+_PUNTO_COMA: ";"
+
+COMENTARIO: /\/\/[^\n]*/
+%import common.WS
+%ignore WS
+%ignore COMENTARIO

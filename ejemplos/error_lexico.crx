@@ -1,0 +1,5 @@
+solicitud SOL-0300 {
+    cliente "Ferretería Sol;
+    monto 12000soles;
+    ingreso 3000 @;
+}

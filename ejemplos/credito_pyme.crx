@@ -1,0 +1,45 @@
+// TechSolutions SAC - Evaluación de ventas de equipos a crédito para pymes
+// Política comercial vigente y tres solicitudes de clientes
+
+politica ESTANDAR {
+    regla score >= 600 sino "Score crediticio por debajo del mínimo (600)";
+    regla endeudamiento <= 0.35 sino "La cuota supera el 35% del ingreso mensual";
+    regla monto <= ingreso * 12 sino "El monto excede 12 veces el ingreso mensual";
+    regla plazo <= 36 sino "El plazo máximo permitido es de 36 meses";
+}
+
+solicitud SOL-0147 {
+    cliente "Inversiones Rímac SAC";
+    ruc "20512345671";
+    monto 18500;
+    plazo 24;
+    ingreso 9200;
+    deuda 800;
+    score 710;
+    tasa 18.5;
+}
+
+solicitud SOL-0148 {
+    cliente "Distribuidora Andina EIRL";
+    ruc "20609876540";
+    monto 42000;
+    plazo 48;
+    ingreso 5100;
+    deuda 1900;
+    score 540;
+    tasa 24;
+}
+
+solicitud SOL-0149 {
+    cliente "Carlos Huamán Quispe";
+    ruc "10701234567";
+    monto 6800;
+    plazo 12;
+    ingreso 3400;
+    score 655;
+    tasa 21;
+}
+
+evaluar SOL-0147 con ESTANDAR;
+evaluar SOL-0148 con ESTANDAR;
+evaluar SOL-0149 con ESTANDAR;

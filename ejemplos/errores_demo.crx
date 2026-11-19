@@ -1,0 +1,17 @@
+// Archivo con errores a propósito para probar las tres etapas de análisis
+politica ESTRICTA {
+    regla score >= 650 sino "Score insuficiente";
+    regla ingresos > 2000 sino "Ingreso bajo";
+}
+
+solicitud SOL-0200 {
+    cliente "Taller Mecánico Lima";
+    ruc "20111111111";
+    monto 900000;
+    plazo 18;
+    ingreso 4000;
+    score 700;
+    tasa 20;
+}
+
+evaluar SOL-0201 con ESTRICTA;
