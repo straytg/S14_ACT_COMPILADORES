@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrediX · Metacompilador de créditos · TechSolutions SAC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <!-- Fondo: malla de gradientes + plano técnico + partículas -->
+  <div class="malla" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="plano" aria-hidden="true"></div>
+  <canvas id="particulas" aria-hidden="true"></canvas>
+
+  <!-- Filtro "gooey" para los efectos líquidos -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
+        <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="g"/>
+        <feBlend in="SourceGraphic" in2="g"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <header class="cabecera">
+    <div class="marca">
+      <pre id="ascii" class="ascii" aria-label="CrediX"></pre>
+      <p class="lema"><span>metacompilador</span> · DSL de préstamos y créditos · <b>TechSolutions SAC</b></p>
+    </div>
+
+    <!-- Pipeline isométrico: una pieza por etapa del compilador -->
+    <div class="hero">
+      <svg id="blob" class="blob" viewBox="-200 -200 400 400" aria-hidden="true">
+        <defs>
+          <linearGradient id="gblob" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#4cc9f0"/><stop offset=".55" stop-color="#7b61ff"/><stop offset="1" stop-color="#ff7ab6"/>
+          </linearGradient>
+        </defs>
+        <path id="blobPath" fill="url(#gblob)" opacity=".55"/>
+      </svg>
+      <svg id="iso" class="iso" viewBox="0 0 640 230" role="img" aria-label="Etapas del compilador"></svg>
+    </div>
+  </header>
+
+  <main class="espacio">
+    <!-- Editor -->
+    <section class="vidrio panel editor" data-fig="FIG. 01 · FUENTE">
+      <div class="barra">
+        <label for="ejemplos">Ejemplo</label>
+        <select id="ejemplos"></select>
+        <span class="espacio-flex"></span>
+        <button id="btnGramatica" class="fantasma" type="button">Ver GLC</button>
+      </div>
+      <div class="editor-caja">
+        <pre id="numeros" aria-hidden="true">1</pre>
+        <textarea id="fuente" spellcheck="false" aria-label="Código fuente CrediX"></textarea>
+      </div>
+      <div class="acciones">
+        <button id="btnCompilar" class="liquido" type="button">
+          <span class="gota"></span><span class="gota"></span><span class="gota"></span>
+          <b>Compilar y evaluar</b>
+        </button>
+        <span id="estado" class="estado">Listo.</span>
+      </div>
+    </section>
+
+    <!-- Resultados -->
+    <section class="vidrio panel salida" data-fig="FIG. 02 · SALIDA">
+      <nav class="pestanas" role="tablist">
+        <button role="tab" data-tab="resultados" class="activa">Resultados</button>
+        <button role="tab" data-tab="errores">Errores<em id="contErr">0</em></button>
+        <button role="tab" data-tab="tokens">Tokens</button>
+        <button role="tab" data-tab="arbol">Árbol</button>
+        <button role="tab" data-tab="python">Python</button>
+      </nav>
+      <div id="vista-resultados" class="vista activa"></div>
+      <div id="vista-errores" class="vista"></div>
+      <div id="vista-tokens" class="vista"></div>
+      <div id="vista-arbol" class="vista"></div>
+      <div id="vista-python" class="vista"><pre id="codigoPy" class="codigo"></pre></div>
+    </section>
+  </main>
+
+  <dialog id="dlgGramatica" class="vidrio">
+    <form method="dialog"><button class="fantasma cerrar">Cerrar ✕</button></form>
+    <h3>Gramática libre de contexto (entrada del metacompilador)</h3>
+    <pre id="txtGramatica" class="codigo"></pre>
+  </dialog>
+
+  <footer class="pie">CrediX · Compiladores · actividad individual — la lógica vive en <code>metacompilador/</code>, esta página solo la consume.</footer>
+
+  <script src="js/fondo.js"></script>
+  <script src="js/ascii.js"></script>
+  <script src="js/arbol.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
