@@ -44,3 +44,9 @@ evaluar SOL-0147 con ESTANDAR;
 ```
 
 Variables de una regla: `monto plazo ingreso score tasa deuda cuota endeudamiento`.
+
+## Con Docker (sin instalar nada en tu PC)
+
+```bash
+docker compose up --build      # abrir http://127.0.0.1:5000
+```
